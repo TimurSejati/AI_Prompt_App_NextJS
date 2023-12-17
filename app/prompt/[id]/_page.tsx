@@ -6,7 +6,7 @@ import { User } from "@clerk/nextjs/server";
 import { Divider } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import PromptDetails from "@/components/Prompts/PromptDetails/PromptDetails";
-// import { stripePaymentIntent } from "@/actions/payment/paymentAction";
+import { stripePaymentIntent } from "@/actions/payment/paymentAction";
 import { loadStripe } from "@stripe/stripe-js";
 import { propmt } from "@/@types/promptTypes";
 import Loader from "@/utils/Loader";
@@ -14,12 +14,12 @@ import Loader from "@/utils/Loader";
 const PromptDetailsPage = ({
   user,
   isSellerExist,
-  // publishAbleKey,
+  publishAbleKey,
   promptId,
 }: {
   user: User | undefined;
   isSellerExist: boolean;
-  // publishAbleKey: string;
+  publishAbleKey: string;
   promptId: string;
 }) => {
   const [isMounted, setIsMounted] = useState(false);
@@ -51,19 +51,19 @@ const PromptDetailsPage = ({
     }
   }, [isMounted]);
 
-  // useEffect(() => {
-  //   if (prompt) {
-  //     if (publishAbleKey) {
-  //       const amount = Math.round(prompt.price * 100);
-  //       newPaymentIntent({ amount });
-  //       setStripePromise(loadStripe(publishAbleKey));
-  //     }
-  //   }
-  // }, [publishAbleKey, prompt]);
+  useEffect(() => {
+    if (prompt) {
+      if (publishAbleKey) {
+        const amount = Math.round(prompt.price * 100);
+        newPaymentIntent({ amount });
+        setStripePromise(loadStripe(publishAbleKey));
+      }
+    }
+  }, [publishAbleKey, prompt]);
 
   const newPaymentIntent = async ({ amount }: { amount: Number }) => {
-    // const paymentIntent = await stripePaymentIntent({ amount });
-    // setClientSecret(paymentIntent?.client_secret);
+    const paymentIntent = await stripePaymentIntent({ amount });
+    setClientSecret(paymentIntent?.client_secret);
   };
 
   if (!isMounted) {

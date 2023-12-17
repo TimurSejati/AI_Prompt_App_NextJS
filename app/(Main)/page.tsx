@@ -7,10 +7,7 @@ const Page = async () => {
 
   return (
     <div>
-      <RoutePage
-        user={JSON.parse(JSON.stringify(data?.user))}
-        isSellerExist={data?.shop ? true : false}
-      />
+      <RoutePage user={data?.user} isSellerExist={data?.shop ? true : false} />
     </div>
   );
 };
